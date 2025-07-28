@@ -96,7 +96,7 @@ require (
 
 replace github.com/ipfs/go-ipld-format v0.6.2 => github.com/Mo-RIZK/go-ipld-format v0.0.0-20250410100728-61bd00b1b711
 
-replace github.com/ipfs/boxo v0.32.0 => github.com/Mo-RIZK/boxo-2 0fc33bdc292fb39cae798cecdfb2de977fc01142
+replace github.com/ipfs/boxo v0.32.0 => github.com/Mo-RIZK/boxo-2 2ce7925b70fdfa1c7d9c4e1f6b0341e720451793
 
 require (
 	github.com/AndreasBriese/bbloom v0.0.0-20190825152654-46b345b51c96 // indirect
