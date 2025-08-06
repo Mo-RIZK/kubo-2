@@ -163,7 +163,7 @@ func badgerSpec() map[string]interface{} {
 		"type":       "badgerds",
 		"prefix":     "badger.datastore",
 		"path":       "badgerds",
-		"syncWrites": false,
+		"syncWrites": true,
 		"truncate":   true,
 	}
 }
