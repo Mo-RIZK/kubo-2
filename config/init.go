@@ -175,7 +175,7 @@ func badgerSpecMeasure() map[string]interface{} {
 		"child": map[string]interface{}{
 			"type":       "badgerds",
 			"path":       "badgerds",
-			"syncWrites": false,
+			"syncWrites": true,
 			"truncate":   true,
 		},
 	}
@@ -190,7 +190,7 @@ func flatfsSpec() map[string]interface{} {
 				"type":       "flatfs",
 				"prefix":     "flatfs.datastore",
 				"path":       "blocks",
-				"sync":       false,
+				"sync":       true,
 				"shardFunc":  "/repo/flatfs/shard/v1/next-to-last/2",
 			},
 			map[string]interface{}{
@@ -215,7 +215,7 @@ func flatfsSpecMeasure() map[string]interface{} {
 				"child": map[string]interface{}{
 					"type":      "flatfs",
 					"path":      "blocks",
-					"sync":      false,
+					"sync":      true,
 					"shardFunc": "/repo/flatfs/shard/v1/next-to-last/2",
 				},
 			},
