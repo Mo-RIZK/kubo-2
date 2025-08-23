@@ -1,7 +1,7 @@
 package config
 
 const (
-	DefaultProviderEnabled     = true
+	DefaultProviderEnabled     = false
 	DefaultProviderWorkerCount = 16
 )
 
