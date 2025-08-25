@@ -217,7 +217,7 @@ func (api *UnixfsAPI) Get(ctx context.Context, p path.Path) (files.Node, error) 
 	return unixfile.NewUnixfsFile(ctx, ses.dag, nd)
 }
 
-func (api *UnixfsAPI) GetEC(ctx context.Context, p path.Path, or int, par int, chunksize uint64, mechanism string) (files.Node, error) {
+func (api *UnixfsAPI) GetEC(ctx context.Context, p path.Path, or int, par int, chunksize uint64, mechanism string, interval float64) (files.Node, error) {
 	ctx, span := tracing.Span(ctx, "CoreAPI.UnixfsAPI", "Get", trace.WithAttributes(attribute.String("path", p.String())))
 	defer span.End()
 	st := time.Now()
@@ -231,7 +231,7 @@ func (api *UnixfsAPI) GetEC(ctx context.Context, p path.Path, or int, par int, c
 	duration1 := et.Sub(st)
 	fmt.Fprintf(os.Stdout, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB %s\n", duration1)
 
-	return unixfile.NewUnixfsFileAlt(ctx, ses.dag, nd, or, par, chunksize, mechanism)
+	return unixfile.NewUnixfsFileAlt(ctx, ses.dag, nd, or, par, chunksize, mechanism, interval)
 }
 
 // Ls returns the contents of an IPFS or IPNS object(s) at path p, with the format:
