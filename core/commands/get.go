@@ -33,6 +33,7 @@ const (
 	parity                     = "par"
 	chunksize                  = "chunk-size"
 	mechanism                  = "mechanism"
+	interval                   = "interval"
 )
 
 var GetCmd = &cmds.Command{
@@ -64,6 +65,7 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 		cmds.IntOption(parity, "pr", "Parity in case of erasure coding"),
 		cmds.IntOption(chunksize, "s", "size of the chunk setted to erasure coding"),
 		cmds.StringOption(mechanism, "m", "How do we retrieve files when using Erasure Coding .. There are 2 mechanisms : exactN or allN .... For the default replication we use Rep"),
+		cmds.FloatOption(interval, "interval", "Interval to refresh which peers to retrieve from").WithDefault(1),
 	},
 	PreRun: func(req *cmds.Request, env cmds.Environment) error {
 		_, err := getCompressOptions(req)
@@ -108,13 +110,14 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 			cs = uint64(css)
 			mec = mechanism
 		}
+		interval, _ := req.Options[interval].(float64)
 
 		var file files.Node
 		var size int64
 		if org == 0 {
 			file, err = api.Unixfs().Get(ctx, p)
 		} else {
-			file, err = api.Unixfs().GetEC(ctx, p, org, pr, cs, mec)
+			file, err = api.Unixfs().GetEC(ctx, p, org, pr, cs, mec, interval)
 			if err != nil {
 				return err
 			}
