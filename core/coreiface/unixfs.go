@@ -79,7 +79,7 @@ type UnixfsAPI interface {
 	// Note that some implementations of this API may apply the specified context
 	// to operations performed on the returned file
 	Get(context.Context, path.Path) (files.Node, error)
-	GetEC(context.Context, path.Path, int, int, uint64, string) (files.Node, error)
+	GetEC(context.Context, path.Path, int, int, uint64, string, float64) (files.Node, error)
 
 	// Ls writes the links in a directory to the DirEntry channel. Links aren't
 	// guaranteed to be returned in order. If an error occurs or the context is
