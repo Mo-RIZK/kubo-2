@@ -23,11 +23,10 @@ func Init(out io.Writer, nBitsForKeypair int) (*Config, error) {
 }
 
 func InitWithIdentity(identity Identity) (*Config, error) {
-	bootstrapPeers := []string{}
-	/*bootstrapPeers, err := DefaultBootstrapPeers()
+	bootstrapPeers, err := DefaultBootstrapPeers()
 	if err != nil {
 		return nil, err
-	}*/
+	}
 
 	datastore := DefaultDatastoreConfig()
 
