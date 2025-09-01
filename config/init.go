@@ -21,7 +21,9 @@ func Init(out io.Writer, nBitsForKeypair int) (*Config, error) {
 
 	return InitWithIdentity(identity)
 }
-
+func stringPtr(s string) *string {
+    return &s
+}
 func InitWithIdentity(identity Identity) (*Config, error) {
 	bootstrapPeers, err := DefaultBootstrapPeers()
 	if err != nil {
