@@ -23,10 +23,11 @@ func Init(out io.Writer, nBitsForKeypair int) (*Config, error) {
 }
 
 func InitWithIdentity(identity Identity) (*Config, error) {
-	bootstrapPeers, err := DefaultBootstrapPeers()
+	bootstrapPeers := []string{}
+	/*bootstrapPeers, err := DefaultBootstrapPeers()
 	if err != nil {
 		return nil, err
-	}
+	}*/
 
 	datastore := DefaultDatastoreConfig()
 
@@ -44,7 +45,7 @@ func InitWithIdentity(identity Identity) (*Config, error) {
 		Identity:  identity,
 		Discovery: Discovery{
 			MDNS: MDNS{
-				Enabled: true,
+				Enabled: false,
 			},
 		},
 
@@ -93,10 +94,10 @@ const DefaultConnMgrLowWater = 32
 
 // DefaultConnMgrGracePeriod is the default value for the connection managers
 // grace period.
-const DefaultConnMgrGracePeriod = time.Second * 20
+const DefaultConnMgrGracePeriod = time.Second * 60
 
 // DefaultConnMgrSilencePeriod controls how often the connection manager enforces the limits.
-const DefaultConnMgrSilencePeriod = time.Second * 10
+const DefaultConnMgrSilencePeriod = time.Second * 60
 
 // DefaultConnMgrType is the default value for the connection managers
 // type.
