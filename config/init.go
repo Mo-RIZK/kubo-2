@@ -46,14 +46,6 @@ func InitWithIdentity(identity Identity) (*Config, error) {
 				Enabled: false,
 			},
 		},
-		Routing: Routing{
-    Type: &OptionalString{
-        Value: "none",
-        Set:   true,
-    },
-},
-
-		
 		// setup the node mount points.
 		Mounts: Mounts{
 			IPFS: "/ipfs",
