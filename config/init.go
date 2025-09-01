@@ -43,7 +43,7 @@ func InitWithIdentity(identity Identity) (*Config, error) {
 		Identity:  identity,
 		Discovery: Discovery{
 			MDNS: MDNS{
-				Enabled: false,
+				Enabled: true,
 			},
 		},
 		// setup the node mount points.
