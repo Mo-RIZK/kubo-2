@@ -21,9 +21,6 @@ func Init(out io.Writer, nBitsForKeypair int) (*Config, error) {
 
 	return InitWithIdentity(identity)
 }
-func stringPtr(s string) *string {
-    return &s
-}
 func InitWithIdentity(identity Identity) (*Config, error) {
 	bootstrapPeers, err := DefaultBootstrapPeers()
 	if err != nil {
@@ -50,8 +47,12 @@ func InitWithIdentity(identity Identity) (*Config, error) {
 			},
 		},
 		Routing: Routing{
-        Type: stringPtr("none"), // <-- add this line
-    	},
+    Type: &OptionalString{
+        Value: "none",
+        Set:   true,
+    },
+},
+
 		
 		// setup the node mount points.
 		Mounts: Mounts{
