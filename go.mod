@@ -96,7 +96,7 @@ require (
 
 replace github.com/ipfs/go-ipld-format v0.6.2 => github.com/Mo-RIZK/go-ipld-format cffe4aa2cf99fdf4ecf390e6f0d1c62daeee2a72
 
-replace github.com/ipfs/boxo v0.32.0 => github.com/Mo-RIZK/boxo-2 7e4e8b9b968a5d7da3f58ae4442adc6ca7bd14f2
+replace github.com/ipfs/boxo v0.32.0 => github.com/Mo-RIZK/boxo-2 b780e26f94bb3a9e3b8cb8de3acdbf60a53af71a
 require (
 	github.com/AndreasBriese/bbloom v0.0.0-20190825152654-46b345b51c96 // indirect
 	github.com/DataDog/zstd v1.5.6-0.20230824185856-869dae002e5e // indirect
