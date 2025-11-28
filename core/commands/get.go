@@ -126,14 +126,8 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 		if err != nil {
 			return err
 		}
-		if org == 0 {
-			fmt.Fprintf(os.Stdout, "11111111111  \n")
 			res.SetLength(uint64(size))
-		} else {
-			fmt.Fprintf(os.Stdout, "2222222222222  \n")
-			newsize := size - int64(pr)*int64(cs)
-			res.SetLength(uint64(newsize))
-		}
+		
 
 		archive, _ := req.Options[archiveOptionName].(bool)
 
