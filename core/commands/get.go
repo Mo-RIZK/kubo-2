@@ -126,8 +126,13 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 		if err != nil {
 			return err
 		}
-
-		res.SetLength(uint64(size))
+		if org == 0{
+			res.SetLength(uint64(size))
+		} else{
+			newsize := size - int64(pr)*int64(cs)
+			res.SetLength(uint64(newsize))
+		}
+		
 
 		archive, _ := req.Options[archiveOptionName].(bool)
 
