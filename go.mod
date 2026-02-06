@@ -95,7 +95,7 @@ require (
 	google.golang.org/protobuf v1.36.6
 )
 
-replace github.com/ipfs/go-ipld-format v0.6.2 => github.com/Mo-RIZK/go-ipld-format cffe4aa2cf99fdf4ecf390e6f0d1c62daeee2a72
+replace github.com/ipfs/go-ipld-format v0.6.2 => github.com/Mo-RIZK/go-ipld-format 364006a8c850710bf56195321cf2158d19f17c27
 
 replace github.com/ipfs/boxo v0.32.0 => github.com/Mo-RIZK/boxo-2 e460335e59fe54e64c0c9c422e546e7b678f4546
 require (
