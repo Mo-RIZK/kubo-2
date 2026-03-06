@@ -1,5 +1,6 @@
 package commands
 import (
+	"reflect"
 	"errors"
 	"fmt"
 	"io"
@@ -374,5 +375,5 @@ It returns true if the block exists locally, false otherwise. No network fetch i
 
         return res.Emit(exists)
     },
-    Type: bool,
+    Type: reflect.TypeOf(true),,
 }
