@@ -42,6 +42,7 @@ passed with a valid CID.
 		"get":  blockGetCmd,
 		"put":  blockPutCmd,
 		"rm":   blockRmCmd,
+		"localhas":  blockLocalHasCmd,
 	},
 }
 
@@ -340,4 +341,45 @@ It takes a list of CIDs to remove from the local datastore..
 		},
 	},
 	Type: removedBlock{},
+}
+
+var blockLocalHasCmd = &cmds.Command{
+    Helptext: cmds.HelpText{
+        Tagline: "Check if a block exists locally in the blockstore without fetching it",
+        ShortDescription: `
+'ipfs block localhas' checks if a block is present in the local blockstore only.
+It returns true if the block exists locally, false otherwise. No network fetch is performed.
+        `,
+    },
+    Arguments: []cmds.Argument{
+        cmds.StringArg("cid", true, false, "CID of the block to check").EnableStdin(),
+    },
+    Run: func(req *cmds.Request, res cmds.ResponseEmitter, env cmds.Environment) error {
+        // Get the API
+        api, err := cmdenv.GetApi(env, req)
+        if err != nil {
+            return err
+        }
+
+        // Parse the CID
+        p, err := cmdutils.PathOrCidPath(req.Arguments[0])
+        if err != nil {
+            return err
+        }
+
+        // **Local-only check using Blockstore.Has()**
+        // Access the node itself
+        nd, err := cmdenv.GetNode(env)
+        if err != nil {
+            return err
+        }
+
+        exists, err := nd.Blockstore.Has(p.Cid())
+        if err != nil {
+            return err
+        }
+
+        return res.Emit(exists)
+    },
+    Type: cmds.Bool{},
 }
