@@ -375,5 +375,5 @@ It returns true if the block exists locally, false otherwise. No network fetch i
 
         return res.Emit(exists)
     },
-    Type: reflect.TypeOf(true),,
+    Type: reflect.TypeOf(true),
 }
