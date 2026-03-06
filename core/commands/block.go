@@ -343,6 +343,10 @@ It takes a list of CIDs to remove from the local datastore..
 	Type: removedBlock{},
 }
 
+type LocalHasResult struct {
+    Exists bool `json:"exists"`
+}
+
 var blockLocalHasCmd = &cmds.Command{
     Helptext: cmds.HelpText{
         Tagline: "Check if a block exists locally in the blockstore without fetching it",
@@ -355,25 +359,22 @@ It returns true if the block exists locally, false otherwise. No network fetch i
         cmds.StringArg("cid", true, false, "CID of the block to check").EnableStdin(),
     },
     Run: func(req *cmds.Request, res cmds.ResponseEmitter, env cmds.Environment) error {
-        // Get the node
         nd, err := cmdenv.GetNode(env)
         if err != nil {
             return err
         }
 
-        // Parse CID directly
         c, err := cid.Decode(req.Arguments[0])
         if err != nil {
             return err
         }
 
-        // Local-only check
         exists, err := nd.Blockstore.Has(req.Context, c)
         if err != nil {
             return err
         }
 
-        return res.Emit(exists)
+        return res.Emit(&LocalHasResult{Exists: exists})
     },
-    Type: reflect.TypeOf(true),
+    Type: LocalHasResult{},
 }
