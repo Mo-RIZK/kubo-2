@@ -361,19 +361,19 @@ It returns true if the block exists locally, false otherwise. No network fetch i
             return err
         }
 
-        // Parse the CID
-        p, err := cmdutils.PathOrCidPath(req.Arguments[0])
+        // Parse CID directly
+        c, err := cid.Decode(req.Arguments[0])
         if err != nil {
             return err
         }
 
         // Local-only check
-        exists, err := nd.Blockstore.Has(req.Context, p.Cid())
+        exists, err := nd.Blockstore.Has(req.Context, c)
         if err != nil {
             return err
         }
 
         return res.Emit(exists)
     },
-    Type: cmds.Bool{},
+    Type: bool{},
 }
