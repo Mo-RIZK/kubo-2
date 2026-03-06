@@ -1,6 +1,5 @@
 package commands
 import (
-	"reflect"
 	"errors"
 	"fmt"
 	"io"
