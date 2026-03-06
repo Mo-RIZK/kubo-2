@@ -1,11 +1,10 @@
 package commands
-
 import (
 	"errors"
 	"fmt"
 	"io"
 	"os"
-
+"github.com/ipfs/go-cid"
 	"github.com/ipfs/boxo/files"
 
 	"github.com/ipfs/kubo/config"
@@ -375,5 +374,5 @@ It returns true if the block exists locally, false otherwise. No network fetch i
 
         return res.Emit(exists)
     },
-    Type: bool{},
+    Type: bool,
 }
