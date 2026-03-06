@@ -355,8 +355,8 @@ It returns true if the block exists locally, false otherwise. No network fetch i
         cmds.StringArg("cid", true, false, "CID of the block to check").EnableStdin(),
     },
     Run: func(req *cmds.Request, res cmds.ResponseEmitter, env cmds.Environment) error {
-        // Get the API
-        api, err := cmdenv.GetApi(env, req)
+        // Get the node
+        nd, err := cmdenv.GetNode(env)
         if err != nil {
             return err
         }
@@ -367,14 +367,8 @@ It returns true if the block exists locally, false otherwise. No network fetch i
             return err
         }
 
-        // **Local-only check using Blockstore.Has()**
-        // Access the node itself
-        nd, err := cmdenv.GetNode(env)
-        if err != nil {
-            return err
-        }
-
-        exists, err := nd.Blockstore.Has(p.Cid())
+        // Local-only check
+        exists, err := nd.Blockstore.Has(req.Context, p.Cid())
         if err != nil {
             return err
         }
