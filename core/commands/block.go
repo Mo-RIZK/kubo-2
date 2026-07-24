@@ -6,6 +6,7 @@ import (
 	"github.com/ipfs/boxo/files"
 	"github.com/ipfs/boxo/ipld/merkledag"
 	"github.com/ipfs/boxo/ipld/unixfs"
+	blocks "github.com/ipfs/go-block-format"
 	"github.com/ipfs/go-cid"
 	"io"
 	"os"
@@ -389,6 +390,9 @@ var blockGetNoStoreCmd = &cmds.Command{
 Retrieves a raw or DAG-PB UnixFS leaf block through Bitswap without
 adding remotely fetched data to the local blockstore.
 
+If the block already exists locally, it is read from the local blockstore.
+Otherwise, it is fetched directly through the exchange and is not cached.
+
 This command expects the CID to identify a leaf data node.
 `,
 	},
@@ -399,7 +403,7 @@ This command expects the CID to identify a leaf data node.
 			true,
 			false,
 			"The CID of the UnixFS leaf block to retrieve.",
-		),
+		).EnableStdin(),
 	},
 
 	Run: func(
@@ -414,29 +418,74 @@ This command expects the CID to identify a leaf data node.
 
 		c, err := cid.Decode(req.Arguments[0])
 		if err != nil {
-			return fmt.Errorf("invalid CID: %w", err)
+			return fmt.Errorf("invalid CID %q: %w", req.Arguments[0], err)
 		}
 
-		// Retrieve locally or through Bitswap, but do not store a remote block.
-		blk, err := nd.Blocks.GetBlockNoStore(req.Context, c)
+		/*
+			Check the local blockstore first.
+
+			Do not use:
+
+			    nd.Blocks.GetBlock(...)
+
+			because BlockService stores blocks that it fetches remotely.
+		*/
+		exists, err := nd.Blockstore.Has(req.Context, c)
 		if err != nil {
-			return err
+			return fmt.Errorf(
+				"checking whether block %s exists locally: %w",
+				c,
+				err,
+			)
+		}
+
+		var blk blocks.Block
+
+		if exists {
+			// The block already exists locally, so read it normally.
+			blk, err = nd.Blockstore.Get(req.Context, c)
+			if err != nil {
+				return fmt.Errorf(
+					"reading local block %s: %w",
+					c,
+					err,
+				)
+			}
+		} else {
+			/*
+				Fetch directly from the exchange/Bitswap.
+
+				This bypasses BlockService.GetBlock, and therefore no
+				Blockstore.Put operation is performed for the fetched block.
+			*/
+			blk, err = nd.Exchange.GetBlock(req.Context, c)
+			if err != nil {
+				return fmt.Errorf(
+					"fetching block %s without storing it: %w",
+					c,
+					err,
+				)
+			}
 		}
 
 		var nodeData []byte
 
 		switch c.Type() {
 		case cid.Raw:
-			// A raw UnixFS leaf contains only the actual file data.
+			// A raw UnixFS leaf contains the actual file bytes directly.
 			nodeData = blk.RawData()
 
 		case cid.DagProtobuf:
 			node, err := merkledag.DecodeProtobufBlock(blk)
 			if err != nil {
-				return fmt.Errorf("decoding DAG-PB block: %w", err)
+				return fmt.Errorf(
+					"decoding DAG-PB block %s: %w",
+					c,
+					err,
+				)
 			}
 
-			// Your assumption: this must be a data leaf, not an internal node.
+			// The command is intended only for UnixFS leaf blocks.
 			if len(node.Links()) != 0 {
 				return fmt.Errorf(
 					"CID %s is not a leaf data node: it contains %d links",
@@ -447,7 +496,11 @@ This command expects the CID to identify a leaf data node.
 
 			nodeData, err = unixfs.ReadUnixFSNodeData(node)
 			if err != nil {
-				return fmt.Errorf("extracting UnixFS data: %w", err)
+				return fmt.Errorf(
+					"extracting UnixFS data from block %s: %w",
+					c,
+					err,
+				)
 			}
 
 		default:
