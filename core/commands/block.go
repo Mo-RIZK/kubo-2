@@ -10,6 +10,7 @@ import (
 	"github.com/ipfs/go-cid"
 	"io"
 	"os"
+	"time"
 
 	"github.com/ipfs/kubo/config"
 	cmdenv "github.com/ipfs/kubo/core/commands/cmdenv"
@@ -458,6 +459,7 @@ This command expects the CID to identify a leaf data node.
 				This bypasses BlockService.GetBlock, and therefore no
 				Blockstore.Put operation is performed for the fetched block.
 			*/
+			stt := time.Now()
 			blk, err = nd.Exchange.GetBlock(req.Context, c)
 			if err != nil {
 				return fmt.Errorf(
@@ -466,6 +468,7 @@ This command expects the CID to identify a leaf data node.
 					err,
 				)
 			}
+			fmt.Printf("To reteive this chunk it took : %s \n", time.Since(stt).String())
 		}
 
 		var nodeData []byte

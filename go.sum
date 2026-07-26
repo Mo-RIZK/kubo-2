@@ -53,6 +53,7 @@ github.com/Jorropo/jsync v1.0.1 h1:6HgRolFZnsdfzRUj+ImB9og1JYOxQoReSywkHOGSaUU=
 github.com/Jorropo/jsync v1.0.1/go.mod h1:jCOZj3vrBCri3bSU3ErUYvevKlnbssrXeCivybS5ABQ=
 github.com/Mo-RIZK/boxo-2 v0.0.0-20260724104803-5c2d5ee98ed2 h1:/iU3be4ARAP0CwoGy5RQRY/kH5Lf8N/5R0xSvGtXIjU=
 github.com/Mo-RIZK/boxo-2 v0.0.0-20260724104803-5c2d5ee98ed2/go.mod h1:nmf2D+LpMWME3OnlzzGBtbcirphgKWgOeh4RwGkQrIY=
+github.com/Mo-RIZK/boxo-2 v0.0.0-20260724124502-0a453811add0/go.mod h1:nmf2D+LpMWME3OnlzzGBtbcirphgKWgOeh4RwGkQrIY=
 github.com/Mo-RIZK/go-ipld-format v0.0.0-20260206105547-7c68fd5e35ab h1:BwGzBNIiteIybP+Y7RifZQqcDADtWVW2qJc3Vko0ZpM=
 github.com/Mo-RIZK/go-ipld-format v0.0.0-20260206105547-7c68fd5e35ab/go.mod h1:O0EkZqv3Ho0AGjMg3k7XOYbey+92p37xkIZxhZiu9zs=
 github.com/OneOfOne/xxhash v1.2.2 h1:KMrpdQIwFcEqXDklaen+P1axHaj9BSKzvpUUfnHldSE=
